@@ -1,0 +1,144 @@
+:root {
+  --color-primary: #2d5a27;
+  /* Deep Green */
+  --color-secondary: #e6f0e6;
+  /* Light green bg */
+  --color-accent: #f4a261;
+  /* Orange/Gold accent */
+  --font-family: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  color: #333;
+  background-color: #fff;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: opacity 0.3s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* Product Image Hover Effects */
+.product-image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.product-image-wrapper img {
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.product-image-wrapper:hover img {
+  transform: scale(1.1);
+  filter: brightness(0.9);
+}
+
+.product-image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-image-wrapper:hover .product-image-overlay {
+  opacity: 1;
+}
+
+.product-image-wrapper:hover .category-banner {
+  transform: translateY(0) !important;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  /* Hide desktop nav, show mobile menu */
+  .desktop-nav {
+    display: none !important;
+  }
+
+  /* Typography adjustments */
+  h1 {
+    font-size: 1.75rem !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  h3 {
+    font-size: 1.25rem !important;
+  }
+
+  /* Button adjustments */
+  .btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  /* Header top bar - smaller text on mobile */
+  header>div:first-child {
+    font-size: 0.7rem !important;
+  }
+
+  header>div:first-child span {
+    font-size: 0.7rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+
+  h2 {
+    font-size: 1.25rem !important;
+  }
+
+  .container {
+    padding: 0 0.75rem;
+  }
+}

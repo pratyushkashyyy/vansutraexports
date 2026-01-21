@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/assets/leaf.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VR AGRICO | Leading Indian Agricultural Exporter</title>
+  <meta name="description"
+    content="Premium exporter of Indian Spices, Vegetables, Fruits, and Animal Feed. Global delivery with guaranteed quality standards." />
+  <meta name="keywords"
+    content="Agriculture Export, Indian Spices, Fresh Vegetables, Fruits Exporter, Pulses, Cereals, VR AGRICO, Nashik, Global Trade" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://vragrico.com/" />
+  <meta property="og:title" content="VR AGRICO | Leading Indian Agricultural Exporter" />
+  <meta property="og:description"
+    content="Premium exporter of Indian Spices, Vegetables, Fruits, and Animal Feed. Global delivery with guaranteed quality standards." />
+  <meta property="og:image" content="/assets/products/vegetables/banner.webp" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://vragrico.com/" />
+  <meta property="twitter:title" content="VR AGRICO | Leading Indian Agricultural Exporter" />
+  <meta property="twitter:description"
+    content="Premium exporter of Indian Spices, Vegetables, Fruits, and Animal Feed. Global delivery with guaranteed quality standards." />
+  <meta property="twitter:image" content="/assets/products/vegetables/banner.webp" />
+  
+  <!-- Fonts & Preload -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="/assets/products/vegetables/banner.webp" />
+  <script type="module" crossorigin src="/assets/index-DgSR0liE.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-aAe16bV0.css">
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
+</html>
