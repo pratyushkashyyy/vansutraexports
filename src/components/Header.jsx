@@ -25,13 +25,13 @@ const Header = () => {
   return (
     <header style={{ position: 'sticky', top: 0, zIndex: 1000, backgroundColor: 'white', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
       {/* Top Bar */}
-      <div style={{ backgroundColor: 'var(--color-primary)', color: 'white', fontSize: '0.875rem', padding: '0.5rem 0' }}>
+      <div className="top-bar" style={{ backgroundColor: 'var(--color-primary)', color: 'white', fontSize: '0.875rem', padding: '0.5rem 0' }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', gap: '1rem' }}>
+          <div className="contact-info" style={{ display: 'flex', gap: '1rem' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Phone size={14} /> +91 7879743528</span>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Mail size={14} /> info.vansutra@gmail.com</span>
           </div>
-          <div style={{ display: 'flex', gap: '1rem' }}>
+          <div className="trust-badges" style={{ display: 'flex', gap: '1rem' }}>
             <span>Global Delivery</span>
             <span>Quality Assured</span>
           </div>
