@@ -36,6 +36,27 @@ const Products = () => {
         flowers: '/assets/products/flowers/banner.webp'
     };
 
+    // State to track which categories actually have products
+    const [availableCategoryIds, setAvailableCategoryIds] = useState(['all']);
+
+    useEffect(() => {
+        // Fetch all products to identify which categories are active
+        const checkCategories = async () => {
+            try {
+                const res = await fetch('/api/products');
+                const data = await res.json();
+                if (Array.isArray(data)) {
+                    const uniqueCategories = new Set(data.map(p => p.category));
+                    setAvailableCategoryIds(['all', ...Array.from(uniqueCategories)]);
+                }
+            } catch (error) {
+                console.error("Error checking categories:", error);
+                // Fallback: show all if check fails, or keep default
+            }
+        };
+        checkCategories();
+    }, []);
+
     useEffect(() => {
         fetchProducts();
     }, [activeCategory]);
@@ -98,7 +119,7 @@ const Products = () => {
             <div style={{ backgroundColor: 'white', padding: '1.5rem 0', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
                 <div className="container">
                     <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap', padding: '0 1rem' }}>
-                        {categories.map(cat => (
+                        {categories.filter(cat => availableCategoryIds.includes(cat.id)).map(cat => (
                             <button
                                 key={cat.id}
                                 onClick={() => setActiveCategory(cat.id)}
