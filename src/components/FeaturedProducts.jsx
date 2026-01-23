@@ -33,7 +33,7 @@ const FeaturedProducts = () => {
     if (products.length === 0) return null;
 
     return (
-        <section style={{ padding: '5rem 0', backgroundColor: 'white' }}>
+        <section className="featured-products-section" style={{ padding: '5rem 0', backgroundColor: 'white' }}>
             <div className="container">
                 <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
                     <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#333', marginBottom: '0.5rem' }}>
@@ -45,7 +45,8 @@ const FeaturedProducts = () => {
                 </div>
 
                 <div style={{ position: 'relative' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
+
+                    <div className="product-grid">
                         {visibleProducts.map((product) => (
                             <div
                                 key={product.id}
@@ -65,6 +66,7 @@ const FeaturedProducts = () => {
                                     e.currentTarget.style.transform = 'translateY(0)';
                                     e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
                                 }}
+                                onClick={() => window.location.href = `/products/${product.slug || product.id}`}
                             >
                                 {/* Featured Badge */}
                                 <div style={{
@@ -83,7 +85,7 @@ const FeaturedProducts = () => {
                                 </div>
 
                                 {/* Product Image */}
-                                <div className="product-image-wrapper" style={{ height: '220px', overflow: 'hidden' }}>
+                                <div className="product-image-wrapper product-card-image">
                                     <img
                                         src={product.image && product.image.startsWith('http') ? product.image : product.image ? product.image : '/assets/leaf.svg'}
                                         alt={product.title}
@@ -94,15 +96,16 @@ const FeaturedProducts = () => {
                                 </div>
 
                                 {/* Product Info */}
-                                <div style={{ padding: '1.5rem', textAlign: 'center' }}>
-                                    <p style={{ fontSize: '0.75rem', color: 'var(--color-primary)', fontWeight: 'bold', letterSpacing: '1px', marginBottom: '0.5rem' }}>
+                                <div className="product-card-body">
+                                    <p style={{ fontSize: '0.65rem', color: 'var(--color-primary)', fontWeight: 'bold', letterSpacing: '1px', marginBottom: '0.3rem' }}>
                                         FRESH {product.category.toUpperCase()}
                                     </p>
-                                    <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#333', marginBottom: '1rem' }}>
+                                    <h3 className="product-title">
                                         {product.title}
                                     </h3>
                                     <a
-                                        href={`/products?category=${product.category}`}
+                                        href={`/products/${product.slug || product.id}`}
+                                        className="view-details-btn"
                                         style={{
                                             display: 'inline-flex',
                                             alignItems: 'center',

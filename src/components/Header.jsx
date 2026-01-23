@@ -39,10 +39,9 @@ const Header = () => {
       </div>
 
       {/* Main Nav */}
-      <div className="container" style={{ padding: '1rem 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', fontSize: '1.5rem', color: 'var(--color-primary)', textDecoration: 'none' }}>
-          <img src="/assets/leaf.svg" alt="Vansutra Exports" style={{ height: '32px' }} />
-          VANSUTRA EXPORTS
+      <div className="container header-nav-container" style={{ padding: '1rem 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Link to="/" className="header-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', fontSize: '1.5rem', color: 'var(--color-primary)', textDecoration: 'none' }}>
+          <img src="/assets/logo.png" alt="Vansutra Exports" style={{ height: '45px' }} />
         </Link>
 
         {/* Desktop Menu */}
@@ -109,11 +108,12 @@ const Header = () => {
           </div>
 
           <Link to="/about" style={{ ...isActive('/about'), textDecoration: 'none', color: '#333', transition: 'all 0.3s' }}>About Us</Link>
+          <Link to="/blog" style={{ ...isActive('/blog'), textDecoration: 'none', color: '#333', transition: 'all 0.3s' }}>Blog</Link>
           <Link to="/contact" style={{ ...isActive('/contact'), textDecoration: 'none', color: '#333', transition: 'all 0.3s' }}>Contact</Link>
         </nav>
 
         {/* Mobile Menu Toggle */}
-        <button onClick={() => setIsOpen(!isOpen)} style={{ display: window.innerWidth > 768 ? 'none' : 'block', background: 'none', border: 'none', cursor: 'pointer' }}>
+        <button className="mobile-menu-toggle" onClick={() => setIsOpen(!isOpen)} style={{ display: window.innerWidth > 768 ? 'none' : 'block', background: 'none', border: 'none', cursor: 'pointer' }}>
           {isOpen ? <X /> : <Menu />}
         </button>
       </div>

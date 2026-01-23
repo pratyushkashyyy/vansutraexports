@@ -96,6 +96,10 @@ vansutraexports/
 ## ✨ distinct Features
 
 - **Dynamic Product Catalog**: Products are managed via database and can be filtered by category.
+- **Data-Rich Admin Panel**:
+  - **Product Manager**: Add, Edit, Delete products with image previews and dynamic specifications.
+  - **Featured Manager**: Reorder and toggle featured products directly from the UI.
+  - **Blog Editor**: Create and manage rich-text blog posts.
 - **SEO Optimized**: Includes Sitemap generation, Meta tags, and Structured Data (JSON-LD) for better search ranking.
 - **Performance Tuned**: Optimized images (WebP), lazy loading, and preloading for critical assets (Clean LCP).
 - **Responsive Design**: Mobile-friendly interface with optimized navigation.

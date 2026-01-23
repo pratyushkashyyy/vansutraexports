@@ -7,7 +7,11 @@ import About from './pages/About';
 import Products from './pages/Products';
 
 import Admin from './pages/Admin';
+import ProductDetails from './pages/ProductDetails';
 import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 import WhatsAppButton from './components/WhatsAppButton';
 
 import { useEffect } from 'react';
@@ -33,8 +37,12 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
         <WhatsAppButton />

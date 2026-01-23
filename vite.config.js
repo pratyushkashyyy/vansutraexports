@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     host: true,
     hmr: {
-      host: '7cafb2b1dade.ngrok-free.app',
+      host: '1e2d5dba546f.ngrok-free.app',
       protocol: 'wss'
     },
     proxy: {
