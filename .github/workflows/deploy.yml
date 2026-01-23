@@ -21,7 +21,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             set -e
-            export PATH=$PATH:/usr/bin:/usr/local/bin
+            export PATH=/usr/bin:/usr/local/bin:$PATH
 
             echo "📁 Move to project directory"
             cd /home/pk/vansutraexports
