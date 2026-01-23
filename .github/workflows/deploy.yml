@@ -21,19 +21,21 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             set -e
+            export PATH=$PATH:/usr/bin:/usr/local/bin
 
-            echo "📁 Moving to project directory"
+            echo "📁 Move to project directory"
             cd /home/pk/vansutraexports
 
-            echo "🔄 Pulling latest code"
+            echo "🔄 Pull latest code"
             git pull origin main
-            
-            echo "🎨 Frontend build"
-            cd ../frontend
+
+            echo "📦 Install & build React (Vite)"
             npm install
             npm run build
 
-            echo "♻️ Restarting PM2 backend"
+            echo "♻️ Restart backend (PM2)"
+            cd server
+            npm install
             pm2 restart vansutraexports-api
 
-            echo "🚀 Deployment successful"
+            echo "🚀 Deployment completed successfully"
