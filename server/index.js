@@ -168,7 +168,9 @@ function seedDb() {
 // Multer Setup for Image Upload
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const dir = path.join(__dirname, '../public/assets/products/uploads');
+        // Store uploads in a dedicated directory outside of public/assets
+        // ensuring they persist and are served correctly via the API
+        const dir = path.join(__dirname, '../uploads/products');
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
         }
@@ -179,6 +181,10 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
+
+// Serve uploaded files via /api/uploads endpoint
+// This ensures Nginx/proxies correctly route requests to the Node server
+app.use('/api/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Routes
 
@@ -237,7 +243,8 @@ app.get('/api/products/:idOrSlug', (req, res) => {
 // Add new product
 app.post('/api/products', upload.single('image'), (req, res) => {
     const { title, subtitle, category, description, featured } = req.body;
-    const image = req.file ? `/assets/products/uploads/${req.file.filename}` : null;
+    // Use the new /api/uploads path for the stored image URL
+    const image = req.file ? `/api/uploads/products/${req.file.filename}` : null;
     const isFeatured = featured === 'true' || featured === true ? 1 : 0;
 
     // Auto-generate slug from title
@@ -283,7 +290,7 @@ app.put('/api/products/:id', upload.single('image'), (req, res) => {
     // We'll trust the logic: if req.file exists, update it. If not, don't update the column (dynamic query).
 
     const isFeatured = featured === 'true' || featured === true ? 1 : 0;
-    const newImage = req.file ? `/assets/products/uploads/${req.file.filename}` : undefined;
+    const newImage = req.file ? `/api/uploads/products/${req.file.filename}` : undefined;
 
     // Generate slug only if title changes? No, keep slug stable or update it? 
     // Let's update slug to match title for consistency.
