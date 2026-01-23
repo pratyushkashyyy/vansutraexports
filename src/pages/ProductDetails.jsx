@@ -33,12 +33,25 @@ const ProductDetails = () => {
     if (loading) return <div style={{ padding: '4rem', textAlign: 'center' }}>Loading product details...</div>;
     if (!product) return <div style={{ padding: '4rem', textAlign: 'center' }}>Product not found. <Link to="/products">Back to Products</Link></div>;
 
+    // Safe JSON Parse Helper
+    const safeParse = (data, fallback) => {
+        try {
+            if (!data) return fallback;
+            // Handle corrupted "[object Object]" strings in DB
+            if (typeof data === 'string' && data.includes('[object Object]')) return fallback;
+            return JSON.parse(data);
+        } catch (error) {
+            console.warn('JSON parse error for product data:', error);
+            return fallback;
+        }
+    };
+
     // Parse JSON fields
-    const highlights = JSON.parse(product.highlights || '[]');
-    const gradingOptions = JSON.parse(product.grading_options || '{}');
-    const packingOptions = JSON.parse(product.packing_options || '{}');
-    const exportMarkets = JSON.parse(product.export_markets || '[]');
-    const documents = JSON.parse(product.documents || '[]');
+    const highlights = safeParse(product.highlights, []);
+    const gradingOptions = safeParse(product.grading_options, {});
+    const packingOptions = safeParse(product.packing_options, {});
+    const exportMarkets = safeParse(product.export_markets, []);
+    const documents = safeParse(product.documents, []);
 
     // Breadcrumb Items
     const breadcrumbItems = [
