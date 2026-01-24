@@ -15,7 +15,7 @@ const ConnectBanner = () => {
         >
             <div className="container">
                 <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1.5rem', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-                    Connect with VR AGRICO
+                    Connect with Vansutra Exports
                 </h2>
                 <p style={{ fontSize: '1.3rem', marginBottom: '2.5rem', maxWidth: '700px', margin: '0 auto 2.5rem', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
                     Join us in bringing the best of Indian agriculture to the world.

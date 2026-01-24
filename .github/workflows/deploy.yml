@@ -36,6 +36,6 @@ jobs:
             echo "♻️ Restart backend (PM2)"
             cd server
             npm install
-            pm2 restart vansutraexports-api
+            pm2 reload vansutraexports-api
 
             echo "🚀 Deployment completed successfully"
