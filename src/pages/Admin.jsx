@@ -164,7 +164,7 @@ const TabButton = ({ active, onClick, label, icon: Icon }) => (
 
 
 const FeaturedManager = () => {
-    const [featuredProducts, setFeaturedProducts] = useState([]);
+    const [groupedProducts, setGroupedProducts] = useState({ fruits: [], vegetables: [], spices: [], cereals: [], other: [] });
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -176,8 +176,17 @@ const FeaturedManager = () => {
         try {
             const res = await fetch('/api/products?featured=true');
             const data = await res.json();
-            // Data is already sorted by featured_order from API
-            setFeaturedProducts(data);
+
+            // Group by category (preserving backend order within groups)
+            const groups = { fruits: [], vegetables: [], spices: [], cereals: [], other: [] };
+            data.forEach(p => {
+                let cat = p.category.toLowerCase();
+                if (cat === 'rice') cat = 'cereals';
+
+                if (groups[cat]) groups[cat].push(p);
+                else groups.other.push(p);
+            });
+            setGroupedProducts(groups);
         } catch (e) {
             console.error(e);
         } finally {
@@ -185,13 +194,23 @@ const FeaturedManager = () => {
         }
     };
 
-    const saveOrder = async (newOrder) => {
-        setFeaturedProducts(newOrder); // Optimistic update
+    const saveOrder = async (newGroups) => {
+        setGroupedProducts(newGroups); // Optimistic update
+
+        // Flatten in specific order
+        const allProducts = [
+            ...newGroups.fruits,
+            ...newGroups.vegetables,
+            ...newGroups.spices,
+            ...newGroups.cereals,
+            ...newGroups.other
+        ];
+
         try {
             await fetch('/api/featured-order', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ order: newOrder.map(p => p.id) })
+                body: JSON.stringify({ order: allProducts.map(p => p.id) })
             });
         } catch (e) {
             console.error("Failed to save order", e);
@@ -199,47 +218,41 @@ const FeaturedManager = () => {
         }
     };
 
-    const moveUp = (index) => {
+    const moveUp = (category, index) => {
         if (index === 0) return;
-        const newOrder = [...featuredProducts];
-        [newOrder[index - 1], newOrder[index]] = [newOrder[index], newOrder[index - 1]];
-        saveOrder(newOrder);
+        const list = [...groupedProducts[category]];
+        [list[index - 1], list[index]] = [list[index], list[index - 1]];
+
+        const newGroups = { ...groupedProducts, [category]: list };
+        saveOrder(newGroups);
     };
 
-    const moveDown = (index) => {
-        if (index === featuredProducts.length - 1) return;
-        const newOrder = [...featuredProducts];
-        [newOrder[index + 1], newOrder[index]] = [newOrder[index], newOrder[index + 1]];
-        saveOrder(newOrder);
+    const moveDown = (category, index) => {
+        const list = [...groupedProducts[category]];
+        if (index === list.length - 1) return;
+        [list[index + 1], list[index]] = [list[index], list[index + 1]];
+
+        const newGroups = { ...groupedProducts, [category]: list };
+        saveOrder(newGroups);
     };
 
     const removeFeatured = async (product) => {
         if (!confirm(`Remove "${product.title}" from Featured?`)) return;
         try {
-            // We use the existing update product API, but just toggle featured
-            // To do this strictly correctly we'd need all fields, but API might handle partials or we need a specific toggle endpoint.
-            // Since our PUT /api/products/:id expects everything, this is tricky without full data.
-            // WORKAROUND: For now, let's just use the reorder list to visually remove it? 
-            // No, that doesn't un-feature it.
-            // We need to fetch full product first, then update.
             const res = await fetch(`/api/products/${product.id}`);
             const fullProduct = await res.json();
 
             const formData = new FormData();
             formData.append('title', fullProduct.title);
             formData.append('category', fullProduct.category);
-            formData.append('featured', 'false'); // Set to false
-            // Append required fields dummy or keep if API validation is loose. 
-            // Our API is strict on table structure but lax on "required" checks in UPDATE usually?
-            // Actually the UPDATE query in index.js sets everything.
-            // So we must repopulate everything.
+            formData.append('featured', 'false');
+
             Object.keys(fullProduct).forEach(key => {
                 if (key !== 'id' && key !== 'featured' && fullProduct[key] !== null) {
                     if (typeof fullProduct[key] === 'object') formData.append(key, JSON.stringify(fullProduct[key]));
                     else formData.append(key, fullProduct[key]);
                 }
             });
-            // We skip image to keep existing
 
             await fetch(`/api/products/${product.id}`, { method: 'PUT', body: formData });
             fetchFeatured();
@@ -248,48 +261,71 @@ const FeaturedManager = () => {
         }
     };
 
+    const categoryTitles = {
+        fruits: 'Fresh Fruits',
+        vegetables: 'Fresh Vegetables',
+        spices: 'Whole & Ground Spices',
+        cereals: 'Quality Cereals',
+        other: 'Other Products'
+    };
+
     return (
         <div style={{ padding: '2rem', backgroundColor: 'white', borderRadius: '12px', maxWidth: '800px', margin: '0 auto' }}>
             <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
                 <Star size={24} fill="#f88500" stroke="#f88500" /> Featured Products Manager
             </h2>
             <p style={{ marginBottom: '2rem', color: '#666' }}>
-                Reorder products to change how they appear on the homepage. Top items appear first.
+                Reorder products within their categories.
             </p>
 
             {loading ? <p>Loading...</p> : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    {featuredProducts.map((p, index) => (
-                        <div key={p.id} style={{
-                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                            padding: '1rem', border: '1px solid #eee', borderRadius: '8px',
-                            backgroundColor: '#f9f9f9'
-                        }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                <span style={{ fontWeight: 'bold', color: '#aaa', width: '20px' }}>{index + 1}</span>
-                                <img src={p.image || '/assets/leaf.svg'} alt={p.title} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />
-                                <div>
-                                    <div style={{ fontWeight: '600' }}>{p.title}</div>
-                                    <div style={{ fontSize: '0.8rem', color: '#888' }}>{p.category}</div>
-                                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                    {Object.entries(groupedProducts).map(([category, items]) => (
+                        (items.length > 0 || category !== 'other') && (
+                            <div key={category} style={{ border: '1px solid #eee', borderRadius: '8px', padding: '1rem', backgroundColor: '#fafafa' }}>
+                                <h3 style={{ marginBottom: '1rem', textTransform: 'capitalize', color: 'var(--color-primary)', borderBottom: '2px solid #eee', paddingBottom: '0.5rem' }}>
+                                    {categoryTitles[category] || category}
+                                </h3>
+
+                                {items.length === 0 ? (
+                                    <p style={{ fontStyle: 'italic', color: '#999', padding: '1rem', textAlign: 'center' }}>No featured products in this category.</p>
+                                ) : (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                        {items.map((p, index) => (
+                                            <div key={p.id} style={{
+                                                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                                padding: '1rem', border: '1px solid #eee', borderRadius: '8px',
+                                                backgroundColor: 'white'
+                                            }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                                    <span style={{ fontWeight: 'bold', color: '#aaa', width: '20px' }}>{index + 1}</span>
+                                                    <img src={p.image || '/assets/leaf.svg'} alt={p.title} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />
+                                                    <div>
+                                                        <div style={{ fontWeight: '600' }}>{p.title}</div>
+                                                    </div>
+                                                </div>
+                                                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                    <button onClick={() => moveUp(category, index)} disabled={index === 0}
+                                                        style={{ padding: '0.5rem', cursor: index === 0 ? 'default' : 'pointer', opacity: index === 0 ? 0.3 : 1, border: '1px solid #ddd', borderRadius: '4px', background: 'white' }}>
+                                                        <ArrowUp size={18} />
+                                                    </button>
+                                                    <button onClick={() => moveDown(category, index)} disabled={index === items.length - 1}
+                                                        style={{ padding: '0.5rem', cursor: index === items.length - 1 ? 'default' : 'pointer', opacity: index === items.length - 1 ? 0.3 : 1, border: '1px solid #ddd', borderRadius: '4px', background: 'white' }}>
+                                                        <ArrowDown size={18} />
+                                                    </button>
+                                                    <button onClick={() => removeFeatured(p)}
+                                                        style={{ marginLeft: '1rem', color: 'red', border: 'none', background: 'none', cursor: 'pointer' }}>
+                                                        <X size={20} />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
-                            <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                <button onClick={() => moveUp(index)} disabled={index === 0}
-                                    style={{ padding: '0.5rem', cursor: index === 0 ? 'default' : 'pointer', opacity: index === 0 ? 0.3 : 1, border: '1px solid #ddd', borderRadius: '4px', background: 'white' }}>
-                                    <ArrowUp size={18} />
-                                </button>
-                                <button onClick={() => moveDown(index)} disabled={index === featuredProducts.length - 1}
-                                    style={{ padding: '0.5rem', cursor: index === featuredProducts.length - 1 ? 'default' : 'pointer', opacity: index === featuredProducts.length - 1 ? 0.3 : 1, border: '1px solid #ddd', borderRadius: '4px', background: 'white' }}>
-                                    <ArrowDown size={18} />
-                                </button>
-                                <button onClick={() => removeFeatured(p)}
-                                    style={{ marginLeft: '1rem', color: 'red', border: 'none', background: 'none', cursor: 'pointer' }}>
-                                    <X size={20} />
-                                </button>
-                            </div>
-                        </div>
+                        )
                     ))}
-                    {featuredProducts.length === 0 && <p>No featured products found.</p>}
+                    {/* Removed overall no products message since we show empty categories now */}
                 </div>
             )}
         </div>

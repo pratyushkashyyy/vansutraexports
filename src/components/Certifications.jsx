@@ -25,7 +25,7 @@ const Certifications = () => {
                     {[
                         { src: '/assets/certifications/apeda.png', alt: 'APEDA' },
                         { src: '/assets/certifications/fssai.png', alt: 'FSSAI' },
-                        { src: '/assets/certifications/spices.png', alt: 'Spices Board' },
+                        { src: '/assets/certifications/iec.png', alt: 'IEC Certification', style: { height: '90px' } },
                         { src: '/assets/certifications/fieo.png', alt: 'FIEO' },
                         { src: '/assets/certifications/iso.png', alt: 'ISO 9001' }
                     ].map((cert, index) => (
@@ -33,6 +33,7 @@ const Certifications = () => {
                             <img
                                 src={cert.src}
                                 alt={cert.alt}
+                                style={cert.style || {}}
                                 loading="lazy"
                             />
                         </div>
