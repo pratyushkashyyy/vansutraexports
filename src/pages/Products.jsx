@@ -13,7 +13,8 @@ const categories = [
     { id: 'iqf', name: 'IQF' },
     { id: 'feed', name: 'Animal Feed' },
     { id: 'organic', name: 'Organic Fertilizer' },
-    { id: 'flowers', name: 'Flowers' }
+    { id: 'flowers', name: 'Flowers' },
+    { id: 'dairy', name: 'Dairy Products' }
 ];
 
 const Products = () => {
@@ -33,7 +34,8 @@ const Products = () => {
         iqf: '/assets/products/iqf/banner.webp',
         feed: '/assets/products/animal_feed/banner.webp',
         organic: '/assets/products/organic_fertilizer/banner.webp',
-        flowers: '/assets/products/flowers/banner.webp'
+        flowers: '/assets/products/flowers/banner.webp',
+        dairy: '/assets/products/dairy/banner.webp'
     };
 
     // State to track which categories actually have products

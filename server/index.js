@@ -33,7 +33,7 @@ app.use('/assets', express.static(path.join(__dirname, '../public/assets')));
 // Sitemap route
 app.get('/sitemap.xml', (req, res) => {
     const baseUrl = 'https://vansutraexports.com';
-    const categories = ['vegetables', 'fruits', 'spices', 'cereals', 'pulses', 'iqf', 'feed', 'organic', 'flowers'];
+    const categories = ['vegetables', 'fruits', 'spices', 'cereals', 'pulses', 'iqf', 'feed', 'organic', 'flowers', 'dairy'];
 
     // Fetch products to add to sitemap
     db.all("SELECT slug FROM products", [], (err, rows) => {

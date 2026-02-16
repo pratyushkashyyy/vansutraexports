@@ -1,5 +1,5 @@
-import React from 'react';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -22,10 +22,11 @@ const Footer = () => {
                     <div>
                         <h3 style={{ marginBottom: '1rem', color: 'var(--color-accent)' }}>Quick Links</h3>
                         <ul style={{ color: '#aaa', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <li><a href="#home">Home</a></li>
-                            <li><a href="#about">About Us</a></li>
-                            <li><a href="#products">Products</a></li>
-                            <li><a href="#contact">Contact</a></li>
+                            <li><Link to="/" style={{ color: '#aaa', textDecoration: 'none' }}>Home</Link></li>
+                            <li><Link to="/about" style={{ color: '#aaa', textDecoration: 'none' }}>About Us</Link></li>
+                            <li><Link to="/products" style={{ color: '#aaa', textDecoration: 'none' }}>Products</Link></li>
+                            <li><Link to="/contact" style={{ color: '#aaa', textDecoration: 'none' }}>Contact</Link></li>
+                            <li><Link to="/blog" style={{ color: '#aaa', textDecoration: 'none' }}>Blog</Link></li>
                         </ul>
                     </div>
 

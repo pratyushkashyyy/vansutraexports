@@ -347,7 +347,7 @@ const Admin = () => {
     const [editingId, setEditingId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [productsPerPage] = useState(10);
-    const [existingCategories, setExistingCategories] = useState(['vegetables', 'fruits', 'cereals', 'pulses', 'spices', 'iqf', 'feed', 'organic', 'flowers']);
+    const [existingCategories, setExistingCategories] = useState(['vegetables', 'fruits', 'cereals', 'pulses', 'spices', 'iqf', 'feed', 'organic', 'flowers', 'dairy']);
 
     const initialProductForm = {
         title: '', subtitle: '', category: 'vegetables', customCategory: '', description: '', image: null, featured: false,

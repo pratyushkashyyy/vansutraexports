@@ -18,13 +18,11 @@ const WhatsAppButton = ({ productName = null, productCategory = null }) => {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            className="floating-action-button whatsapp-button"
             style={{
                 position: 'fixed',
-                bottom: '30px',
-                right: '30px',
                 backgroundColor: '#25D366',
                 color: 'white',
-                padding: '1rem',
                 borderRadius: '50%',
                 boxShadow: '0 4px 12px rgba(37, 211, 102, 0.4)',
                 zIndex: 9999,
@@ -33,7 +31,6 @@ const WhatsAppButton = ({ productName = null, productCategory = null }) => {
                 justifyContent: 'center',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                animation: 'pulse 2s infinite'
             }}
             onMouseOver={(e) => {
                 e.currentTarget.style.transform = 'scale(1.1)';
@@ -44,9 +41,32 @@ const WhatsAppButton = ({ productName = null, productCategory = null }) => {
                 e.currentTarget.style.boxShadow = '0 4px 12px rgba(37, 211, 102, 0.4)';
             }}
         >
-            <MessageCircle size={32} />
+            <MessageCircle className="button-icon" />
             <style>
                 {`
+                    .whatsapp-button {
+                        bottom: 30px;
+                        right: 30px;
+                        padding: 1rem;
+                        animation: pulse 2s infinite;
+                    }
+                    .whatsapp-button .button-icon {
+                        width: 32px;
+                        height: 32px;
+                    }
+
+                    @media (max-width: 768px) {
+                        .whatsapp-button {
+                            bottom: 20px;
+                            right: 20px;
+                            padding: 0.8rem;
+                        }
+                        .whatsapp-button .button-icon {
+                            width: 24px;
+                            height: 24px;
+                        }
+                    }
+
                     @keyframes pulse {
                         0%, 100% {
                             box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);

@@ -20,5 +20,16 @@ export default defineConfig({
         changeOrigin: true
       }
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
+          'editor': ['react-quill-new'],
+          'icons': ['lucide-react']
+        }
+      }
+    }
   }
 })
