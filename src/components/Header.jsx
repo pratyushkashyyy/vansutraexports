@@ -16,7 +16,6 @@ const Header = () => {
     { name: 'Cereals', slug: 'cereals' },
     { name: 'Pulses', slug: 'pulses' },
     { name: 'IQF', slug: 'iqf' },
-    { name: 'Animal Feed', slug: 'feed' },
     { name: 'Organic Fertilizer', slug: 'organic' },
     { name: 'Flowers', slug: 'flowers' },
     { name: 'Dairy Products', slug: 'dairy' }
